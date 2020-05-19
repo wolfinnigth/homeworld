@@ -1,1 +1,2 @@
-# homeworld
+# Appulse Homeworld
+Idle Clicker Prototype
