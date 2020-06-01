@@ -6,6 +6,7 @@ import {isEnough, gainCost} from '../../bdcgin/Gin';
 
 import {storage, calcStorageCapacity} from '../knowledge/storage';
 import {buildings, finishItem, collectItem, calcBuildCost, buildItem, calcCycle} from '../knowledge/buildings';
+import {defences, finishDefItem, calcDefBuildCost, buildDefItem} from '../knowledge/defence';
 import {events, genEvent} from '../knowledge/events';
 import {managers, generateManager} from '../knowledge/managers';
 
@@ -55,10 +56,14 @@ export const rules = {
                     if (task.item_type == 'buildings') {
                         store = finishItem(store, task.item_key);
                     }
+                    if (task.item_type == 'defences') {
+                        store = finishDefItem(store, task.item_key);
+                    }
                 }
             });
     
             _.remove(store.constructing, (task) => task.start_frame + task.duration <= store.frame);
+            
     
     
             // /* auto_build

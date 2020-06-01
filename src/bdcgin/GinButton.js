@@ -7,6 +7,7 @@ import {isEnough} from "./Gin";
 
 import {storage, calcStorageCost, buyStorage} from '../game/knowledge/storage';
 import {buildings, buildItem, buildNewItem, calcBuildCost, calcBuildDuration, calcProfit, calcBuildPercent, collectItem, calcCycle} from "../game/knowledge/buildings";
+import {defences, calcDefBuildCost, buildDefItem, calcDefBuildPercent, calcDefBuildDuration} from '../game/knowledge/defence';
 import {hire, fire} from "../game/knowledge/managers";
 import {calcUpgradeCost, upgrade} from "../game/knowledge/upgrades";
 
@@ -70,6 +71,25 @@ export class BuildingGinButton extends Component {
                     cost:    calcBuildCost(this.props.state, this.props.item_key),
                     isDisabled: (state) => this.props.state.buildings[this.props.item_key].busy || this.props.state.constructing.length >= this.props.state.permanent.constructors,
                     onClick: (state) => buildItem(state, this.props.item_key)
+                }}
+                state={this.props.state}
+                gin={this.props.gin}
+            />
+        );
+    }
+}
+
+export class BuildingDefGinButton extends Component {
+    render() {
+        return (
+            <GinButton
+                item={{
+                    name:    this.props.state.defences[this.props.item_key].busy
+                                 ? 'Build ' + calcDefBuildPercent(this.props.state, this.props.item_key) + '%'
+                                 : 'Build ' + (calcDefBuildDuration(this.props.state, this.props.item_key)/10).toFixed(0) + ' sec',
+                    cost:    calcDefBuildCost(this.props.state, this.props.item_key),
+                    isDisabled: (state) => this.props.state.defences[this.props.item_key].busy || this.props.state.constructing.length >= this.props.state.permanent.constructors,
+                    onClick: (state) => buildDefItem(state, this.props.item_key)
                 }}
                 state={this.props.state}
                 gin={this.props.gin}

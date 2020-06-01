@@ -5,6 +5,7 @@ import _ from 'lodash';
 import {resources} from '../knowledge/resources';
 import {storage, calcAllStorage} from '../knowledge/storage';
 import {buildings} from '../knowledge/buildings';
+import {defences} from '../knowledge/defence';
 import {upgrades} from '../knowledge/upgrades';
 
 
@@ -37,6 +38,7 @@ export const default_state = {
     storage:   _.mapValues(storage,   () => { return {level: 0, modifier: 1}; }),
     buildings: [], //_.mapValues(buildings, () => { return {level: 0, busy: false, auto_build: true, fullness: 0, modifier: 1, speed_modifier: 1}; }),
     upgrades:  _.mapValues(upgrades,  () => { return {level: 0}; }),
+    defences:   _.mapValues(defences,  () => { return {level: 0, busy: false}; }),
     
     
     constructing: [],

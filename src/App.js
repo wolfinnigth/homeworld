@@ -14,7 +14,7 @@ import './css/App.css';
 
 import {Gin, isEnough, drawCost, gainCost} from './bdcgin/Gin';
 import GinGameMenu from './bdcgin/GinGameMenu';
-import GinButton, {StorageGinButton, CollectGinButton, BuildingGinButton, NewBuildingGinButton, AutoBuildingGinButton, UnlockGinButton, HireGinButton, FireGinButton, UpGinButton } from "./bdcgin/GinButton";
+import GinButton, {StorageGinButton, CollectGinButton, BuildingGinButton, BuildingDefGinButton, NewBuildingGinButton, AutoBuildingGinButton, UnlockGinButton, HireGinButton, FireGinButton, UpGinButton } from "./bdcgin/GinButton";
 
 import {rules} from './game/core/rules';
 import {pick, calcReputation, reset} from './game/helpers';
@@ -27,6 +27,7 @@ import {builder_store, stores, crystals} from './game/knowledge/stores';
 import {upgrades, calcUpgradeCost, upgrade} from './game/knowledge/upgrades';
 import {storage, calcStorageCost, buyStorage, calcAllStorage} from './game/knowledge/storage';
 import {buildings, calcBuildCost, calcCycle, calcProfit, buildItem, collectItem} from './game/knowledge/buildings';
+import {defences, calcDefBuildCost, buildDefItem} from './game/knowledge/defence';
 import {managers, hire} from './game/knowledge/managers';
 import {checkDisabled, confirmEvent, passEvent} from './game/knowledge/events';
 
@@ -301,12 +302,28 @@ class App extends Component {
                 </div>
             </div>;
     
+    
         const defence_subcomponent =
             <div className="filament">
                 <div className="flex-container-col panel">
-                    <h4>Defence</h4>
+                    <h5 className="slim">Defence</h5>
+                    {_.map(pick(state, defences), (item, key) =>
+                        <div className="flex-element flex-container-row panel filament" key={key}>
+                            <div className="flex-element flex-container-row slim">
+                                <div className="flex-element slim"><h3 className="slim">{state.defences[key].level}</h3></div>
+                                <div className="flex-element slim"><h5>{item.name}</h5></div>
+                            </div>
+                            <div className="flex-element">
+                                <div className="flex-element">
+                                    <BuildingDefGinButton item={item} item_key={key} key={key} state={state} gin={this.gin} />
+                                </div>
+                                <div className="flex-element">Cost: {drawCost(calcDefBuildCost(state, key))}</div>
+                            </div>
+                        </div>
+                    )}
                 </div>
             </div>;
+        
         
         const footer_subcomponent =
             <div className="footer col">
